@@ -1,8 +1,7 @@
-def check_keywords(reviews: list, keywords: list):
-    matched_reviews = []
-    for review in reviews:
-        for word in keywords:
-            if word in review:
-                matched_reviews.append(review)
-                break
-    return matched_reviews
+def check_keywords(comment: str, keywords: list):
+    matched_keywords = []
+    for word in keywords:
+        if word in comment:
+            matched_keywords.append(word)
+            break
+    return matched_keywords
