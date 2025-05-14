@@ -1,0 +1,43 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual environment
+venv/
+.env
+*.env
+
+# MacOS metadata
+.DS_Store
+
+# VSCode settings (optional)
+.vscode/
+
+# Selenium browser profiles or temp files
+selenium-profile/
+*.log
+
+# PyInstaller
+dist/
+build/
+*.spec
+
+# Coverage and test
+htmlcov/
+.tox/
+.coverage
+.cache/
+.pytest_cache/
+
+# IDEs
+.idea/
+*.iml
+
+# Jupyter (if you ever use it)
+.ipynb_checkpoints/
+
+# Local dev data
+config/*.local.json
