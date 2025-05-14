@@ -40,4 +40,4 @@ htmlcov/
 .ipynb_checkpoints/
 
 # Local dev data
-config/*.local.json
+config/env_config.py

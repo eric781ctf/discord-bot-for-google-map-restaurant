@@ -1,5 +1,0 @@
-import json
-import os
-
-with open(os.path.join(os.path.dirname(__file__), 'keywords.json'), encoding='utf-8') as f:
-    KEYWORDS = json.load(f)
