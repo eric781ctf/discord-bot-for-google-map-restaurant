@@ -36,8 +36,5 @@ htmlcov/
 .idea/
 *.iml
 
-# Jupyter (if you ever use it)
-.ipynb_checkpoints/
-
 # Local dev data
-config/env_config.py
+configs/env_config.py
