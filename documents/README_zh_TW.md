@@ -1,4 +1,4 @@
-# discod-bot-for-google-map-restaurant
+# discord-bot-for-google-map-restaurant
 
 ## 📌 專案簡介
 
