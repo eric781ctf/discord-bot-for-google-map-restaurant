@@ -136,11 +136,19 @@ class SeleniumCrawler:
             # comment = emoji.demojize(review)
             comment = review
             matched_keywords = parse.check_keywords(comment, CONFIGURATION.KeyWordsList)
-            if len(matched_keywords)>0:
-                All_comment_matched.append(comment)
+            if matched_keywords:
                 for matched in matched_keywords:
                     if matched not in All_keywords_matched:
                         All_keywords_matched.append(matched)
+                    
+                    # 取得 matched 關鍵字的位置
+                    start_idx = comment.find(matched)
+                    if start_idx != -1:
+                        # 取得前後20字元的範圍
+                        context_start = max(0, start_idx - 20)
+                        context_end = min(len(comment), start_idx + len(matched) + 20)
+                        context_snippet = comment[context_start:context_end]
+                        All_comment_matched.append(f"...{context_snippet}...")
         print(f"評論數量: {len(all_reviews)}")
         return all_reviews, All_comment_matched, All_keywords_matched
         
