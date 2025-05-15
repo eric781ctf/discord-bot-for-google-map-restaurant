@@ -58,7 +58,7 @@ def setup_commands(bot: commands.Bot):
                     All_comment_matched = All_comment_matched[:5]
                 merge_text = ""
                 for i, comment in enumerate(All_comment_matched):
-                    merge_text += f"評論:{comment}"
+                    merge_text += f"#### 評論: \n{comment}"
                     if i != len(All_comment_matched) - 1:
                         merge_text += f"\n====================\n"
                 await ctx.send(merge_text)
