@@ -28,15 +28,16 @@ git clone https://github.com/your-repo/discod-bot-for-google-map-restaurant.git
 cd discod-bot-for-google-map-restaurant
 ```
 
-2. 安裝必要套件：
+2. 安裝：
 ```bash
 pip install -r requirements.txt
 ```
 
+另外，專案改用selenium headless爬取評論，因此要記得下載 chrome driver!!!
+
 3. 設定環境變數：
 ```python
 DC_BOT_TOKEN=your_bot_token
-SURP_API_KEY=your_serp_api_key
 ```
 
 4. 啟動 Bot：
@@ -105,7 +106,6 @@ google_maps/
 
 ## 🛡️ 注意事項
 1. 請勿將 .env 檔案上傳至公開的版本控制系統，確保敏感資訊的安全。
-2. 確保 SURP_API_KEY 有效，否則無法正確爬取 Google 地圖評論。
 
 
 
