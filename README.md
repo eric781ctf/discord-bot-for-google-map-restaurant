@@ -1,4 +1,4 @@
-# discod-bot-for-google-map-restaurant
+# discord-bot-for-google-map-restaurant
 [中文說明](/documents/README_zh_TW.md)
 
 ## 📌 Project Overview
