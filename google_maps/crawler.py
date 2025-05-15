@@ -142,7 +142,7 @@ class SeleniumCrawler:
                     if matched not in All_keywords_matched:
                         All_keywords_matched.append(matched)
         print(f"評論數量: {len(all_reviews)}")
-        return All_comment_matched, All_keywords_matched
+        return all_reviews, All_comment_matched, All_keywords_matched
         
 
 
