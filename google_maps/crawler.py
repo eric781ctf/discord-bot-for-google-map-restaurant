@@ -8,9 +8,14 @@ import re
 import os
 from serpapi import GoogleSearch
 from google_maps import parse
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.keys import Keys
+import time
 
  
-class GoogleMapCrawler:
+class SerpAPICrawler:
     def __init__(self, url):
         self.headers = CONFIGURATION.HEADERS
         self.store_url = url
@@ -66,3 +71,63 @@ class GoogleMapCrawler:
                         All_keywords_matched.append(matched)
 
         return All_comment_matched, All_keywords_matched
+    
+class SeleniumCrawler:
+    def __init__(self, url):
+        self.headers = CONFIGURATION.HEADERS
+        self.store_url = url
+
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")  # 無頭模式
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        self.driver = webdriver.Chrome(service=Service(), options=options)
+
+
+    
+
+
+# 輸入目標商家名稱
+target = "星巴克 台北車站"
+
+# 建立瀏覽器
+options = webdriver.ChromeOptions()
+options.add_argument("--start-maximized")
+driver = webdriver.Chrome(service=Service(), options=options)
+
+# 開啟 Google Maps 並搜尋
+driver.get("https://www.google.com/maps")
+time.sleep(3)
+
+# 搜尋商家
+search_box = driver.find_element(By.ID, "searchboxinput")
+search_box.send_keys(target)
+search_box.send_keys(Keys.ENTER)
+time.sleep(5)
+
+# 點擊評論按鈕（需要視商家頁面結構調整）
+try:
+    review_button = driver.find_element(By.CSS_SELECTOR, 'button[jsaction="pane.reviewChart.moreReviews"]')
+    review_button.click()
+    time.sleep(5)
+except:
+    print("找不到評論按鈕")
+
+# 滾動評論區塊
+scrollable_div = driver.find_element(By.CSS_SELECTOR, 'div[aria-label="評論"]')
+for _ in range(10):  # 滾動10次
+    driver.execute_script('arguments[0].scrollTop = arguments[0].scrollHeight', scrollable_div)
+    time.sleep(2)
+
+# 抓取評論內容
+reviews = driver.find_elements(By.CSS_SELECTOR, 'div[jscontroller="e6Mltc"]')
+for review in reviews:
+    try:
+        author = review.find_element(By.CLASS_NAME, 'd4r55').text
+        rating = review.find_element(By.CSS_SELECTOR, 'span[jsname="bN97Pc"]').get_attribute("aria-label")
+        content = review.find_element(By.CLASS_NAME, 'wiI7pd').text
+        print(f"作者: {author}\n評分: {rating}\n評論內容: {content}\n{'='*40}")
+    except:
+        continue
+
+driver.quit()

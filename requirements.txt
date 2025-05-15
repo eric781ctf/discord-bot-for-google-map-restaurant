@@ -7,3 +7,4 @@ requests
 emoji
 lxml
 google-search-results
+selenium
