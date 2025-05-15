@@ -49,8 +49,8 @@ def setup_commands(bot: commands.Bot):
             All_comment_matched = None
             All_keywords_matched = None
             All_reviews, All_comment_matched, All_keywords_matched = await asyncio.to_thread(lambda: gmc.work())
-            logging.debug('All_comment_matched:',All_comment_matched)
-            logging.debug('All_keywords_matched: ',All_keywords_matched)
+            logging.debug(f'All_comment_matched: {All_comment_matched}')
+            logging.debug(f'All_keywords_matched: {All_keywords_matched}')
             
             if len(All_comment_matched)>0 and len(All_keywords_matched)>0:
                 merge_text = f"✅ 於{len(All_reviews)}評論中找到了{len(All_comment_matched)}則評論包含以下關鍵字：\n" + " / ".join(All_keywords_matched)+"\n"
