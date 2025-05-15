@@ -27,7 +27,7 @@ class CONFIGURATION:
             KEYWORDS = json.load(f)
     KeyWordsList = KEYWORDS
     DC_API_KEY = os.getenv("DC_API_KEY")
-    ScrollPage = 10
+    ScrollPage = 20
     SCROLLABLE_DIV_ID = 'div.m6QErb.DxyBCb.kA9KIf.dS8AEf'
     BLOCKS_DIC_ID = 'div.jftiEf'
     BLOCK_SPAN_ID = 'span.wiI7pd'

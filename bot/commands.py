@@ -3,6 +3,7 @@ from google_maps import crawler, parse
 from configs.config import CONFIGURATION
 import asyncio
 import uuid
+import logging
 
 active_sessions = set()
 def setup_commands(bot: commands.Bot):
@@ -38,7 +39,7 @@ def setup_commands(bot: commands.Bot):
         try:
             active_sessions.add(user_key)
             session_id = uuid.uuid4()
-            print(f"🔁 New check_google_map session: {session_id}")
+            logging.debug(f"🔁 New check_google_map session: {session_id}")
             if not url or ("https://www.google.com.tw/" not in url and "https://maps.app.goo.gl" not in url):
                 await ctx.send("❗ 請提供 Google 地圖的連結，例如：\n`!check https://www.google.com/maps/place/...`")
                 return
@@ -48,11 +49,11 @@ def setup_commands(bot: commands.Bot):
             All_comment_matched = None
             All_keywords_matched = None
             All_reviews, All_comment_matched, All_keywords_matched = await asyncio.to_thread(lambda: gmc.work())
-            print('All_comment_matched:',All_comment_matched)
-            print('All_keywords_matched: ',All_keywords_matched)
+            logging.debug('All_comment_matched:',All_comment_matched)
+            logging.debug('All_keywords_matched: ',All_keywords_matched)
             
             if len(All_comment_matched)>0 and len(All_keywords_matched)>0:
-                merge_text = f"✅ 於{len(All_comment_matched)} / {len(All_reviews)}評論中找到了以下關鍵字：\n" + " / ".join(All_keywords_matched)+"\n"
+                merge_text = f"✅ 於{len(All_reviews)}評論中找到了{len(All_comment_matched)}則評論包含以下關鍵字：\n" + " / ".join(All_keywords_matched)+"\n"
                 await ctx.send(merge_text)
                 if len(All_comment_matched)>5:
                     All_comment_matched = All_comment_matched[:5]
@@ -62,9 +63,10 @@ def setup_commands(bot: commands.Bot):
                     if i != len(All_comment_matched) - 1:
                         merge_text += f"\n====================\n"
                 await ctx.send(merge_text)
+                logging.info(f"🔍 成功查詢評論，總評論數: {len(All_reviews)}，符合條件的評論數: {len(All_comment_matched)}")
             elif len(All_comment_matched)==0 and len(All_keywords_matched)==0:
-                print('評論中沒有找到相關關鍵字')
+                logging.info('評論中沒有找到相關關鍵字')
                 await ctx.send(f"❌ 抓取了{len(All_comment_matched)}筆評論，沒有找到相關關鍵字。")
         finally:
             active_sessions.discard(user_key)
-            print(f"🔚 清除 active_sessions: {user_key}")
+            logging.info(f"🔚 清除 active_sessions: {user_key}")
