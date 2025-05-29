@@ -33,9 +33,11 @@ def setup_commands(bot: commands.Bot):
     @bot.command(name="check")
     async def check_google_map(ctx, url: str):
         user_key = (ctx.author.id, url)
+        '''
         if user_key in active_sessions:
             await ctx.send("⚠️ 正在查詢中，請勿重複發送指令")
             return
+        '''
         try:
             active_sessions.add(user_key)
             session_id = uuid.uuid4()
@@ -53,7 +55,7 @@ def setup_commands(bot: commands.Bot):
             logging.debug(f'All_keywords_matched: {All_keywords_matched}')
             
             if len(All_comment_matched)>0 and len(All_keywords_matched)>0:
-                merge_text = f"✅ 於{len(All_reviews)}評論中找到了{len(All_comment_matched)}則評論包含以下關鍵字：\n" + " / ".join(All_keywords_matched)+"\n"
+                merge_text = f"{url}\n✅ 於{len(All_reviews)}評論中找到了{len(All_comment_matched)}則評論包含以下關鍵字：\n" + " / ".join(All_keywords_matched)+"\n"
                 await ctx.send(merge_text)
                 if len(All_comment_matched)>5:
                     All_comment_matched = All_comment_matched[:5]
@@ -66,7 +68,7 @@ def setup_commands(bot: commands.Bot):
                 logging.info(f"🔍 成功查詢評論，總評論數: {len(All_reviews)}，符合條件的評論數: {len(All_comment_matched)}")
             elif len(All_comment_matched)==0 and len(All_keywords_matched)==0:
                 logging.info('評論中沒有找到相關關鍵字')
-                await ctx.send(f"❌ 抓取了{len(All_comment_matched)}筆評論，沒有找到相關關鍵字。")
+                await ctx.send(f"❌ 抓取了{len(All_reviews)}筆評論，沒有找到相關關鍵字。")
         finally:
             active_sessions.discard(user_key)
             logging.info(f"🔚 清除 active_sessions: {user_key}")
